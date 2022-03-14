@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+COMPOSE="docker compose"
+NODE_CONTAINER="node"
+
+export UID=$(id -u)
+export GID=$(id -g)
+
+# If we pass any arguments...
+if [[ $# -gt 0 ]]; then
+  if [[ "$1" == "gatsby" ]]; then
+    shift 1
+    $COMPOSE run --rm $NODE_CONTAINER /bin/bash -c "./node_modules/.bin/gatsby $@"
+  elif [[ "$1" == "npm" ]]; then
+    shift 1
+    $COMPOSE run --rm $NODE_CONTAINER npm "$@"
+  elif [[ "$1" == "node" ]]; then
+    shift 1
+    $COMPOSE run --rm $NODE_CONTAINER node "$@"
+  elif [[ "$1" == "start" ]]; then
+    shift 1
+    $COMPOSE -f docker-compose.yaml up "$@"
+  elif [[ "$1" == "stop" ]]; then
+    $COMPOSE -f docker-compose.yaml stop
+  elif [[ "$1" == "bash" ]]; then
+    $COMPOSE run $NODE_CONTAINER /bin/bash
+  fi
+else
+  $COMPOSE run $NODE_CONTAINER node "$@"
+fi
