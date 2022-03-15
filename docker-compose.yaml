@@ -8,23 +8,13 @@ services:
     user: $UID:$GID
     ports:
       - "8000:8000"
+      - "9000:9000"
       - "9229:9229"
+      - "9230:9230"
+      - "33213:33213"
     environment:
-      - AWS_ACCESS_KEY_ID=hackathon
-      - AWS_SECRET_ACCESS_KEY=hackathon_secret
+      - NODE_ENV=development
+      - INTERNAL_STATUS_PORT=33213
     volumes:
       - ./:/app
-    command: ["npm", "run", "develop"]
-  s3:
-    image: minio/minio
-    user: $UID:$GID
-    hostname: hackathon.s3-website.eu-central-1.amazonaws.com
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - ./storage/minio:/data
-    environment:
-      MINIO_ROOT_USER: admin
-      MINIO_ROOT_PASSWORD: secret123
-    command: server --console-address "0.0.0.0:9001" --address "0.0.0.0:9000" /data
+    command: node --inspect node_modules/gatsby/dist/bin/gatsby.js develop -H 0.0.0.0
