@@ -5,8 +5,6 @@ import kebabCase from "lodash/kebabCase"
 
 const BlogPage = ({ data }) => {
 
-  console.log(data.tags)
-
   return (
     <Layout pageTitle="My Blog Posts">
       {
@@ -23,7 +21,7 @@ const BlogPage = ({ data }) => {
       }
       {
         data.tags.group.map((tag) => (
-          <Link to={`/tag/${kebabCase(tag.value)}`} key={tag.value}>
+          <Link to={`/blog/tags/${kebabCase(tag.value)}`} key={tag.value}>
             {tag.value} ({tag.totalCount})
           </Link>
         ))
