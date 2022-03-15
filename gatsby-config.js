@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   siteMetadata: {
     title: "My first Gatsby Site",
@@ -20,5 +22,16 @@ module.exports = {
       }
     },
     "gatsby-plugin-mdx",
+    {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          "@components": path.resolve(__dirname, 'src/components')
+        },
+        extensions: [
+          "js"
+        ]
+      }
+    }
   ],
 };
